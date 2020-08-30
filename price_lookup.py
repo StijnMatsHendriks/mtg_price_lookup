@@ -22,29 +22,17 @@ def url_to_price(URL):
     result = result.replace(".", "", result.count(".") -1) # change non-USA format of numbers to USA     
     return float(result)
 
-def update_reserved_list():
-    data = pd.read_excel("reserved_list.xlsx")
+def update_price_list(excel_file):
+    data = pd.read_excel(excel_file)
 
-    current_date = str(date.today())
-    current_date = str(current_date).replace("-","_")
-
+    current_date = str(date.today()).replace("-","_")
+    
     data[f"price_{current_date}"] = data["mcm_link"].apply(lambda x: url_to_price(x))
     data["price"] = data[f"price_{current_date}"]
 
-    data.to_excel("reserved_list.xlsx")
-
-def update_non_reserved_list():
-    data = pd.read_excel("non_reserved_list.xlsx")
-
-    current_date = str(date.today())
-    current_date = str(current_date).replace("-","_")
-
-    data[f"price_{current_date}"] = data["mcm_link"].apply(lambda x: url_to_price(x))
-    data["price"] = data[f"price_{current_date}"]
-
-    data.to_excel("non_reserved_list.xlsx")
+    data.to_excel(excel_file)
 
 if __name__ == "__main__":
-    update_reserved_list()
-    update_non_reserved_list()
+    update_price_list("reserved_list.xlsx")
+    update_price_list("non_reserved_list.xlsx")
     
