@@ -13,13 +13,10 @@ def url_to_price(URL):
     for row in price_table:
         columns.append(row.text)
 
-    try: 
-        if "Reprints" in columns:
-            result = soup.find_all('dd', class_ = 'col-6 col-xl-7')[5].text.strip("€ ") # 4 is the trend-price
-        else:
-            result = soup.find_all('dd', class_ = 'col-6 col-xl-7')[4].text.strip("€ ") # 4 is the trend-price
-    except IndexError:
-        result = "IndexError"
+    if "Reprints" in columns:
+        result = soup.find_all('dd', class_ = 'col-6 col-xl-7')[5].text.strip("€ ") # 5 is the trend-price
+    else:
+        result = soup.find_all('dd', class_ = 'col-6 col-xl-7')[4].text.strip("€ ") # 4 is the trend-price
     
     result = result.replace(",", ".") # change non-USA format of numbers to USA     
     result = result.replace(".", "", result.count(".") -1) # change non-USA format of numbers to USA     
